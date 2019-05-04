@@ -1,5 +1,6 @@
-import React, { Component } from "react";
+import React, { Component, SyntheticEvent } from "react";
 import { Mutation } from "react-apollo";
+import env from "../env";
 import gql from "graphql-tag";
 import Form from "./styles/Form";
 // import formatMoney from "../lib/formatMoney";
@@ -41,6 +42,25 @@ class CreateItem extends Component {
     this.setState({ [name]: val });
   };
 
+  uploadFile = async e => {
+    console.log("uploading file");
+    const files = e.target.files;
+    const data = new FormData();
+    data.append("file", files[0]);
+    data.append("upload_preset", "sickfits");
+
+    const res = await fetch(env.CLOUDINARY_UPLOAD_ENDPOINT, {
+      method: "POST",
+      body: data
+    });
+    const file = await res.json();
+    console.log(file);
+    this.setState({
+      image: file.secure_url,
+      largeImage: file.eager[0].secure_url
+    });
+  };
+
   render() {
     // export the mutation createItem to Form component bu wrapping Mutation component
     // Child of mutation is Form component wrapped as a render prop
@@ -64,6 +84,25 @@ class CreateItem extends Component {
           >
             <Error error={error} />
             <fieldset disabled={loading} aria-busy={loading}>
+              <label htmlFor="file">
+                Image
+                <input
+                  type="file"
+                  id="file"
+                  name="file"
+                  placeholder="Upload an image"
+                  required
+                  onChange={this.uploadFile}
+                />
+                {this.state.image && (
+                  <img
+                    width={200}
+                    src={this.state.image}
+                    alt="Upload Preview"
+                  />
+                )}
+              </label>
+
               <label htmlFor="title">
                 Title
                 <input
