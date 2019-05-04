@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Query } from "react-apollo";
+import { Query } from "react-apollo"; // Query is component using renderProps
 import gql from "graphql-tag";
 import styled from "styled-components";
 
@@ -35,9 +35,14 @@ class Items extends Component {
     return (
       <Center>
         <p>Items!</p>
+        {/* An example of render props, 
+        the way components is passed the props from Query,
+        the child of Query is function expression : 
+         function(payload) => { return (Component)}  */}
         <Query query={ALL_ITEMS_QUERY}>
-          {({ data, error, loading }) => {
-            console.log(data);
+          {payload => {
+            const { data, error, loading } = payload;
+            console.log(payload);
             if (loading) return <p>Loading...</p>;
             if (error) return <p>Error: {error.message}</p>;
             return (
@@ -55,3 +60,5 @@ class Items extends Component {
 }
 
 export default Items;
+
+export { ALL_ITEMS_QUERY };
