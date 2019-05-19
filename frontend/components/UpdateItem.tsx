@@ -1,10 +1,9 @@
-import React, { Component, SyntheticEvent } from "react";
+import React, { Component } from "react";
 import { Mutation, Query } from "react-apollo";
 import gql from "graphql-tag";
 import Form from "./styles/Form";
 // import formatMoney from "../lib/formatMoney";
 import Error from "./ErrorMessage";
-import Router from "next/router";
 
 const SINGLE_ITEM_QUERY = gql`
   query SINGLE_ITEM_QUERY($id: ID!) {

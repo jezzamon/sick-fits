@@ -29,11 +29,11 @@ const CREATE_ITEM_MUTATION = gql`
 
 class CreateItem extends Component {
   state = {
-    title: "Cool Shoes",
-    description: "I love desc",
-    image: "img.jpg",
-    largeImage: "imgLg.jpg",
-    price: 1999
+    title: "",
+    description: "",
+    image: "",
+    largeImage: "",
+    price: 0
   };
   handleChange = evt => {
     const { name, type, value } = evt.target;
@@ -77,7 +77,7 @@ class CreateItem extends Component {
               // change them to the single item page
               console.log(res);
               Router.push({
-                pathname: "/item",
+                pathname: "/items",
                 query: { id: res.data.createItem.id }
               });
             }}

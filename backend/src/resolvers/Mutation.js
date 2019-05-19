@@ -28,6 +28,14 @@ const Mutations = {
       },
       info // info is what is returned after update
     );
+  },
+  async deleteItem(parent, args, ctx, info) {
+    const where = { id: args.id };
+    // find item
+    const item = await ctx.db.query.item({ where }, `{ id title}`);  // usally pass in info (query from frontEnd), this time manually passing query for returned info
+    // check if they own item
+    // delete it
+    return ctx.db.mutation.deleteItem({ where }, info);
   }
 };
 
