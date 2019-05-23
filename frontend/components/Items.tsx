@@ -3,11 +3,13 @@ import { Query } from "react-apollo"; // Query is component using renderProps
 import gql from "graphql-tag";
 import styled from "styled-components";
 
+import Pagination from "./Pagination";
 import Item from "./Item";
+import { perPage } from "../config";
 
 const ALL_ITEMS_QUERY = gql`
-  query ALL_ITEMS_QUERY {
-    items {
+  query ALL_ITEMS_QUERY($skip: Int = 0, $first: Int = ${perPage}) {
+    items(first: $first, skip: $skip, orderBy: createdAt_DESC) {
       id
       title
       price
@@ -30,16 +32,23 @@ const ItemsList = styled.div`
   margin: 0 auto;
 `;
 
-class Items extends Component {
+class Items extends Component<any, any> {
   render() {
     return (
       <Center>
+        <Pagination page={this.props.page} />
         <p>Items!</p>
         {/* An example of render props, 
         the way components is passed the props from Query,
         the child of Query is function expression : 
          function(payload) => { return (Component)}  */}
-        <Query query={ALL_ITEMS_QUERY}>
+        <Query
+          query={ALL_ITEMS_QUERY}
+          variables={{
+            skip: this.props.page * perPage - perPage,
+            first: perPage
+          }}
+        >
           {payload => {
             const { data, error, loading } = payload;
             console.log(payload);
@@ -54,6 +63,7 @@ class Items extends Component {
             );
           }}
         </Query>
+        <Pagination page={this.props.page} />
       </Center>
     );
   }

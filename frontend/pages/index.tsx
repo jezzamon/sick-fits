@@ -2,9 +2,9 @@
 // next.js will take care of importing react here
 import Items from "../components/Items";
 
-const Home = () => (
+const Home = props => (
   <div>
-    <Items />
+    <Items page={parseFloat(props.query.page) || 1} />
   </div>
 );
 
