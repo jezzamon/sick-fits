@@ -37,13 +37,13 @@ class Items extends Component<any, any> {
     return (
       <Center>
         <Pagination page={this.props.page} />
-        <p>Items!</p>
         {/* An example of render props, 
         the way components is passed the props from Query,
         the child of Query is function expression : 
          function(payload) => { return (Component)}  */}
         <Query
           query={ALL_ITEMS_QUERY}
+          // fetchPolicy="network-only"
           variables={{
             skip: this.props.page * perPage - perPage,
             first: perPage
