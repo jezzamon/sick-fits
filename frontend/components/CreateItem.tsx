@@ -1,11 +1,11 @@
-import React, { Component, SyntheticEvent } from "react";
-import { Mutation } from "react-apollo";
-import env from "../env";
-import gql from "graphql-tag";
-import Form from "./styles/Form";
+import React, { Component, SyntheticEvent } from 'react';
+import { Mutation } from 'react-apollo';
+import env from '../env';
+import gql from 'graphql-tag';
+import Form from './styles/Form';
 // import formatMoney from "../lib/formatMoney";
-import Error from "./ErrorMessage";
-import Router from "next/router";
+import Error from './ErrorMessage';
+import Router from 'next/router';
 
 const CREATE_ITEM_MUTATION = gql`
   mutation CREATE_ITEM_MUTATION(
@@ -29,35 +29,35 @@ const CREATE_ITEM_MUTATION = gql`
 
 class CreateItem extends Component {
   state = {
-    title: "",
-    description: "",
-    image: "",
-    largeImage: "",
-    price: 0
+    title: '',
+    description: '',
+    image: '',
+    largeImage: '',
+    price: 0,
   };
   handleChange = evt => {
     const { name, type, value } = evt.target;
-    const val = type === "number" ? parseFloat(value) : value;
+    const val = type === 'number' ? parseFloat(value) : value;
 
     this.setState({ [name]: val });
   };
 
   uploadFile = async e => {
-    console.log("uploading file");
+    console.log('uploading file');
     const files = e.target.files;
     const data = new FormData();
-    data.append("file", files[0]);
-    data.append("upload_preset", "sickfits");
+    data.append('file', files[0]);
+    data.append('upload_preset', 'sickfits');
 
     const res = await fetch(env.CLOUDINARY_UPLOAD_ENDPOINT, {
-      method: "POST",
-      body: data
+      method: 'POST',
+      body: data,
     });
     const file = await res.json();
     console.log(file);
     this.setState({
       image: file.secure_url,
-      largeImage: file.eager[0].secure_url
+      largeImage: file.eager[0].secure_url,
     });
   };
 
@@ -77,8 +77,8 @@ class CreateItem extends Component {
               // change them to the single item page
               console.log(res);
               Router.push({
-                pathname: "/items",
-                query: { id: res.data.createItem.id }
+                pathname: '/items',
+                query: { id: res.data.createItem.id },
               });
             }}
           >
