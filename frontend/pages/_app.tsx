@@ -23,6 +23,8 @@ class MyApp extends App<IAppProps> {
   }
   render() {
     // Component - is injected into props by Next.js (index.tsx, sell.tsx)
+    //    The component is passed from Pages directory
+    //    (any components here is represents a "route" , like PHP)
     // apollo - is injected into props by withData HOC (index.tsx, sell.tsx)
     // pageProps - inject props of current component at highest level
     const { Component, apollo, pageProps } = this.props;
